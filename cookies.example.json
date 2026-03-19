@@ -1,0 +1,20 @@
+[
+  {
+    "name": "_circle_session",
+    "value": "YOUR_CIRCLE_SESSION_COOKIE_VALUE_HERE",
+    "domain": "community.example.com",
+    "path": "/"
+  },
+  {
+    "name": "remember_user_token",
+    "value": "YOUR_REMEMBER_USER_TOKEN_VALUE_HERE",
+    "domain": "community.example.com",
+    "path": "/"
+  },
+  {
+    "name": "cf_clearance",
+    "value": "YOUR_CLOUDFLARE_CLEARANCE_VALUE_HERE",
+    "domain": ".example.com",
+    "path": "/"
+  }
+]
