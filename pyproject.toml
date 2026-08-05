@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "circle-so-scraper"
+version = "2026.03.19"
+dependencies = [
+  "playwright",
+  "beautifulsoup4",
+]
+requires-python = ">=3.8"
+authors = [
+  {name = "Marty Kind"},
+  {name = "Claude Anthropic"},
+]
+maintainers = [
+]
+description = "Tools for archiving Circle platform communities behind authentication"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["circle.so", "scraper", "webscraper", "crawler", "archiver", "warc"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python"
+]
+
+[project.urls]
+# Homepage = "https://github.com/maarteek/circle-scraper"
+# Documentation = "https://github.com/maarteek/circle-scraper"
+Repository = "https://github.com/maarteek/circle-scraper"
+# "Bug Tracker" = "https://github.com/maarteek/circle-scraper/issues"
+# Changelog = "https://github.com/maarteek/circle-scraper/blob/master/CHANGELOG.md"
+
+[project.scripts]
+circle-so-scraper = "circle_so_scraper:main"
+
+[tool.setuptools]
+py-modules = ["circle_so_scraper"]
