@@ -8,6 +8,7 @@ import asyncio
 import json
 import sys
 from pathlib import Path
+import http.cookiejar
 
 from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
@@ -170,8 +171,17 @@ class CircleCrawler:
 
 
 def load_cookies(cookie_path):
-    """Load cookies from a JSON file."""
     path = Path(cookie_path)
+    suffix = path.suffix.lower()
+    if suffix == ".json":
+        return load_cookies_json(path)
+    if suffix == ".txt":
+        return load_cookies_txt(path)
+    raise ValueError(f"unknown cookies file type: {path}")
+
+
+def load_cookies_json(path):
+    """Load cookies from a JSON file."""
     if not path.exists():
         print(f"Error: cookie file not found at {path}")
         print("Create a cookies.json file. See cookies.example.json for the expected format.")
@@ -184,6 +194,32 @@ def load_cookies(cookie_path):
         print("Error: cookies.json must contain a JSON array of cookie objects.")
         sys.exit(1)
 
+    return cookies
+
+
+def load_cookies_txt(path):
+    jar_1 = http.cookiejar.MozillaCookieJar()
+    jar_1.load(path)
+    cookies = []
+    # https://github.com/milahu/aiohttp_chromium/blob/main/src/aiohttp_chromium/cookiejar.py
+    for cookie_1 in jar_1:
+        #print("cookie_1 dir", dir(cookie_1))
+        #import json
+        #print("cookie_1 dict", json.dumps(cookie_1.__dict__, indent=2))
+        cookie = {
+            # required values
+            "name": cookie_1.name,
+            "value": cookie_1.value,
+            # optional values
+            "domain": cookie_1.domain,
+            "path": cookie_1.path,
+            "expires": cookie_1.expires, # UTC timestamp
+            "httpOnly": True, # TODO?
+            "secure": cookie_1.secure,
+            "session": False, # TODO?
+            "sameSite": "Lax" if cookie_1.domain_initial_dot else "Strict", # TODO?
+        }
+        cookies.append(cookie)
     return cookies
 
 
